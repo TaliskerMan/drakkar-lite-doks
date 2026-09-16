@@ -1,0 +1,16 @@
+# Build context for server/Dockerfile is the repo root; the API image only
+# needs core/ and server/.
+.git
+**/.dart_tool
+**/build
+**/.idea
+**/.vscode
+**/*.iml
+**/.DS_Store
+web/
+k8s/
+scripts/
+local/
+docs/
+presentation/
+*.md

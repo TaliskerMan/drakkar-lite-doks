@@ -1,0 +1,46 @@
+# Jobs are immutable, so re-run with:
+#   kubectl -n drakkar delete job drakkar-migrate --ignore-not-found
+#   kubectl apply -k k8s/migrate
+#   kubectl -n drakkar wait --for=condition=complete job/drakkar-migrate --timeout=120s
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: drakkar-migrate
+  labels:
+    app: drakkar-migrate
+spec:
+  backoffLimit: 2
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      labels:
+        app: drakkar-migrate
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: migrate
+          image: drakkar-api          # same image as the API, different command
+          args: ["migrate"]
+          env:
+            - name: MIGRATOR_DATABASE_URL   # table-owner credentials (doadmin)
+              valueFrom:
+                secretKeyRef:
+                  name: drakkar-db
+                  key: MIGRATOR_DATABASE_URL
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]

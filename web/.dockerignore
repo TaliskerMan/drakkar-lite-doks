@@ -1,0 +1,23 @@
+# Only build/web/ and nginx/ are needed in the image. This is a deny-list on
+# purpose: allow-lists ("*" then "!build/web/**") behave differently across
+# Docker versions.
+.dart_tool/
+.idea/
+.vscode/
+*.iml
+.metadata
+.flutter-plugins
+.flutter-plugins-dependencies
+android/
+ios/
+linux/
+macos/
+windows/
+lib/
+test/
+web/
+pubspec.yaml
+pubspec.lock
+analysis_options.yaml
+README.md
+Dockerfile

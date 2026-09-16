@@ -1,0 +1,50 @@
+# Used by scripts/load.sh (placeholders are filled in by sed).
+# Not part of the kustomization; it is a throwaway load generator.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: drakkar-load
+  labels:
+    app: drakkar-load
+spec:
+  parallelism: __WORKERS__
+  completions: __WORKERS__
+  backoffLimit: 0
+  activeDeadlineSeconds: 900
+  ttlSecondsAfterFinished: 120
+  template:
+    metadata:
+      labels:
+        app: drakkar-load
+    spec:
+      restartPolicy: Never
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        runAsGroup: 65534
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: load
+          image: busybox:1.36
+          env:
+            - name: DURATION
+              value: "__DURATION__"
+          command: ["/bin/sh", "-c"]
+          args:
+            - >-
+              timeout "$DURATION" sh -c 'while true; do
+              wget -q -O /dev/null --header "Content-Type: application/json"
+              --post-data "{\"email\":\"nobody@example.com\",\"password\":\"x\"}"
+              http://drakkar-api:8080/v1/auth/login 2>/dev/null; done' || true
+          resources:
+            requests:
+              cpu: 20m
+              memory: 16Mi
+            limits:
+              memory: 32Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]

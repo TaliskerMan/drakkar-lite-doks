@@ -1,0 +1,48 @@
+# DOKS managed Gateway API (Cilium). Requires Kubernetes 1.33+ on a
+# VPC-native cluster; check with: kubectl get gatewayclass cilium
+# Creating this Gateway provisions a DigitalOcean Network Load Balancer that
+# sends traffic to every worker node; Cilium then routes it to the right pods.
+# HTTPS is a stretch goal (needs a domain): see DigitalOcean's "Use Gateway API" guide.
+# Plan B if the Gateway never gets an ADDRESS: k8s/extras/web-loadbalancer.yaml.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: drakkar
+spec:
+  gatewayClassName: cilium
+  # Settings for the DigitalOcean Load Balancer that DOKS creates for this
+  # Gateway (max 8 annotations). It appears under Networking > Load Balancers.
+  infrastructure:
+    annotations:
+      service.beta.kubernetes.io/do-loadbalancer-name: "drakkar-lite-lb"
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Same
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: drakkar
+spec:
+  parentRefs:
+    - name: drakkar
+  rules:
+    # Longest matching prefix wins, so /v1/... goes to the API.
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /v1
+      backendRefs:
+        - name: drakkar-api
+          port: 8080
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: drakkar-web
+          port: 8080

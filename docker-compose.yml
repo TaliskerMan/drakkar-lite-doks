@@ -1,0 +1,65 @@
+# Drakkar Lite — local stack (mirrors the DOKS layout).
+#   cd web && flutter build web && cd ..
+#   docker compose up --build
+# Web: http://localhost:8081   API: http://localhost:8080   Postgres: localhost:5432
+# Credentials below are for local development only.
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: drakkar
+      POSTGRES_USER: drakkar_owner          # stands in for DigitalOcean's doadmin
+      POSTGRES_PASSWORD: owner-dev-only
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./local/initdb:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "${PG_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U drakkar_owner -d drakkar"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  migrate:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    image: drakkar-api:local
+    command: ["migrate"]
+    environment:
+      MIGRATOR_DATABASE_URL: postgresql://drakkar_owner:owner-dev-only@db:5432/drakkar?sslmode=disable
+    depends_on:
+      db:
+        condition: service_healthy
+
+  api:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    image: drakkar-api:local
+    command: ["serve"]
+    environment:
+      # Runtime role is NOT the table owner, so Row-Level Security applies.
+      DATABASE_URL: postgresql://drakkar_app:app-dev-only@db:5432/drakkar?sslmode=disable
+      CORS_ORIGIN: ""                       # set to e.g. http://localhost:5000 for `flutter run -d chrome`
+    ports:
+      - "${API_PORT:-8080}:8080"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  web:
+    build:
+      context: ./web
+    image: drakkar-web:local
+    environment:
+      API_UPSTREAM: http://api:8080
+    ports:
+      - "${WEB_PORT:-8081}:8080"
+    depends_on:
+      - api
+
+volumes:
+  pgdata:

@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+# Registry and tag are set by: scripts/set_registry.sh <registry> <tag>
+kind: Kustomization
+namespace: drakkar
+resources:
+  - job.yaml
+images:
+  - name: drakkar-api
+    newName: registry.digitalocean.com/YOUR_REGISTRY/drakkar-api
+    newTag: v0.1.0

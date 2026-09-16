@@ -1,0 +1,8 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  language:
+    strict-casts: true
+  errors:
+    unused_import: error
+    dead_code: error

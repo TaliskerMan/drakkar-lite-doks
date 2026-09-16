@@ -1,0 +1,29 @@
+# PLAN B only. Use it if the Gateway never gets an ADDRESS.
+# This Service creates a classic DigitalOcean Load Balancer in front of the web
+# pods. nginx in those pods already proxies /v1 to the API Service, so the
+# whole app keeps working without the Gateway.
+#
+#   kubectl -n drakkar apply -f k8s/extras/web-loadbalancer.yaml
+#   kubectl -n drakkar get svc drakkar-web-public -w      # wait for EXTERNAL-IP
+#
+# Remove it when you no longer need it (it costs the same as the Gateway's LB):
+#   kubectl -n drakkar delete -f k8s/extras/web-loadbalancer.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: drakkar-web-public
+  labels:
+    app: drakkar-web
+    app.kubernetes.io/part-of: drakkar-lite
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-name: "drakkar-lite-lb-planb"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-protocol: "http"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-path: "/healthz"
+spec:
+  type: LoadBalancer
+  selector:
+    app: drakkar-web
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

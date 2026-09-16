@@ -1,0 +1,41 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: drakkar-api
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: drakkar-api
+  minReplicas: 2
+  maxReplicas: 5                   # 5 pods x DB_POOL_SIZE 3 = 15 connections, under the 1 GiB plan's 22
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70   # percent of the CPU *request* (100m)
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 60   # shortened so the demo scales back quickly
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: drakkar-api
+spec:
+  minAvailable: 1                  # node drains during DOKS upgrades keep one API pod up
+  selector:
+    matchLabels:
+      app: drakkar-api
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: drakkar-web
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: drakkar-web

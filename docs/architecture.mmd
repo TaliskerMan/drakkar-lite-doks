@@ -1,0 +1,22 @@
+flowchart LR
+  U[Users] -->|HTTP :80| LB[DigitalOcean Load Balancer<br/>drakkar-lite-lb]
+  subgraph VPC["DigitalOcean VPC (one region)"]
+    subgraph DOKS["DOKS cluster · node pool: 2–3 × s-2vcpu-4gb (Cluster Autoscaler)"]
+      GW[Gateway 'drakkar'<br/>Cilium Gateway API]
+      subgraph NS["namespace drakkar (Pod Security: restricted)"]
+        WEB[drakkar-web ×2<br/>nginx + Flutter web]
+        API[drakkar-api ×2–5<br/>Dart API · HPA @70% CPU]
+        JOB[Job drakkar-migrate]
+      end
+      MS[metrics-server]
+    end
+    PG[(Managed PostgreSQL<br/>trusted source: this cluster only)]
+  end
+  DOCR[(DigitalOcean Container Registry)]
+  LB -->|to every worker node| GW
+  GW -->|/v1/*| API
+  GW -->|/*| WEB
+  API -->|TLS · role drakkar_app| PG
+  JOB -->|TLS · role doadmin| PG
+  MS -. CPU metrics .-> API
+  DOCR -. image pull .-> NS
