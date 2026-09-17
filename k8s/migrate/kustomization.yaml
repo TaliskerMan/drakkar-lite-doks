@@ -6,5 +6,5 @@ resources:
   - job.yaml
 images:
   - name: drakkar-api
-    newName: registry.digitalocean.com/YOUR_REGISTRY/drakkar-api
+    newName: registry.digitalocean.com/sharkbite/drakkar-api
     newTag: v0.1.0
