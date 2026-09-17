@@ -56,7 +56,7 @@ k8s/               kustomize: namespace, api, web, gateway (load balancer), HPA 
   tools/           load-generator Job used by scripts/load.sh
   extras/          Plan B: classic LoadBalancer Service for the web pods
 local/initdb/      creates the non-owner app role for docker compose
-scripts/           verify_build · set_registry · isolation_demo · rollout_check · load · k6-read.js · collect_evidence
+scripts/           verify_build · set_registry · isolation_demo · rollout_check · load · k6-read.js · collect_evidence · cost_check
 docs/              architecture, setup guide, cost analysis, QBR, results/ (performance evidence)
 presentation/      submission deck (PDF)
 docker-compose.yml local stack that mirrors the cluster layout
@@ -170,7 +170,12 @@ kubectl apply -k k8s && kubectl -n drakkar rollout status deploy/drakkar-api
 kubectl -n drakkar rollout undo deploy/drakkar-api     # roll back if needed
 ```
 
-## 6. Tear down
+## 6. Watch the cost, then tear down
+
+```bash
+BUDGET=50 scripts/cost_check.sh      # billable resources, burn rate, month-to-date vs. budget
+```
+
 
 ```bash
 doctl kubernetes cluster delete $CLUSTER --dangerous     # also deletes its load balancer and volumes

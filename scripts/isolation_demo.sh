@@ -6,7 +6,7 @@
 # Usage: scripts/isolation_demo.sh [base-url]   (default http://localhost:8081)
 set -euo pipefail
 
-BASE="${1:-http://localhost:8081}"
+BASE="${1:-http://localhost:18081}"
 STAMP="$(date +%s)"
 PASS='Demo-Pass-2026'
 

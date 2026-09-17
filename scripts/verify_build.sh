@@ -6,6 +6,8 @@
 #   SKIP_DOCKER=1 scripts/verify_build.sh   # skip the image builds
 #   E2E=1 scripts/verify_build.sh           # also run the stack with docker compose
 #                                           # and the tenant-isolation test
+#   API_PORT=18080 WEB_PORT=18081 PG_PORT=15432 E2E=1 scripts/verify_build.sh
+#                                           # same, if 8080/8081/5432 are already in use
 #
 # Works on Linux (bash 4+) and macOS (bash 3.2). Output from each step is
 # saved in .verify/<step>.log; the summary at the end lists what failed.
@@ -110,11 +112,17 @@ else
 fi
 
 # ----------------------------------------------------------------- E2E ------
-if [ "${E2E:-0}" = "1" ]; then
+if [ "${E2E:-1}" = "1" ]; then
   if have docker && [ -d web/build/web ]; then
+    for port in "${API_PORT:-18080}" "${WEB_PORT:-18081}" "${PG_PORT:-15432}"; do
+      if (exec 3<>"/dev/tcp/127.0.0.1/$port") 2>/dev/null; then
+        echo "  note: port $port is already in use on this machine. Re-run with free ports, e.g."
+        echo "        API_PORT=18080 WEB_PORT=18081 PG_PORT=15432 E2E=1 scripts/verify_build.sh"
+      fi
+    done
     step "e2e: compose up"   docker compose up -d --build
-    step "e2e: isolation"    bash -c 'for i in $(seq 1 30); do curl -fsS -o /dev/null http://localhost:${API_PORT:-8080}/readyz && break; sleep 2; done; scripts/isolation_demo.sh http://localhost:${WEB_PORT:-8081}'
-    step "e2e: api metrics"  bash -c 'curl -fsS http://localhost:${API_PORT:-8080}/metrics | grep -q drakkar_http_requests_total'
+    step "e2e: isolation"    bash -c 'for i in $(seq 1 30); do curl -fsS -o /dev/null http://localhost:${API_PORT:-18080}/readyz && break; sleep 2; done; scripts/isolation_demo.sh http://localhost:${WEB_PORT:-18081}'
+    step "e2e: api metrics"  bash -c 'curl -fsS http://localhost:${API_PORT:-18080}/metrics | grep -q drakkar_http_requests_total'
     step "e2e: compose down" docker compose down -v
   else
     skip "e2e" "needs docker and a web build"
