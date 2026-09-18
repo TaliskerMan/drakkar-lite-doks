@@ -1,0 +1,38 @@
+# kubectl apply -k k8s-tls
+#
+# The TLS overlay: everything in k8s/, plus the certificate, plus the :443
+# listener and the redirect. Applying this is a superset of `kubectl apply -k
+# k8s`, so it is safe to use as the only apply from here on.
+#
+# TWO files are deliberately NOT listed here, because their content depends on
+# which run this is. The overlay holds only what is static.
+#
+#   clusterissuer.yaml -- cluster-scoped. The `namespace:` transformer below
+#     cannot tell that without an OpenAPI schema and would stamp
+#     metadata.namespace onto it.
+#
+#   certificate.yaml -- its issuerRef changes between a STAGING=1 rehearsal and
+#     a production run. If the overlay carried it, applying the overlay in the
+#     last step of enable_tls.sh would silently reset issuerRef back to
+#     letsencrypt-prod and re-issue against the production CA -- spending a real
+#     rate-limit slot on what was supposed to be a rehearsal.
+#
+# scripts/enable_tls.sh applies both directly, and re-checks the issuer after
+# this overlay is applied.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: drakkar
+labels:
+  - pairs:
+      app.kubernetes.io/part-of: drakkar-lite
+resources:
+  # Inherits the image names and tag set by scripts/set_registry.sh.
+  - ../k8s
+  - redirect-to-https.yaml
+patches:
+  - path: gateway-https.yaml
+    target:
+      group: gateway.networking.k8s.io
+      version: v1
+      kind: Gateway
+      name: drakkar

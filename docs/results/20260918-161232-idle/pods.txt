@@ -1,0 +1,9 @@
+$ kubectl -n drakkar get pods -o wide
+
+NAME                           READY   STATUS             RESTARTS   AGE    IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-674746977c-kdlct   0/1     InvalidImageName   0          89m    10.109.0.151   default-3y8xdn   <none>           <none>
+drakkar-api-c9d66c69c-27wcs    1/1     Running            0          24h    10.109.0.66    default-3y8xv9   <none>           <none>
+drakkar-api-c9d66c69c-t4cjt    1/1     Running            0          24h    10.109.0.96    default-3y8xv9   <none>           <none>
+drakkar-web-77fbc64fb7-85k9c   0/1     InvalidImageName   0          149m   10.109.0.83    default-3y8xv9   <none>           <none>
+drakkar-web-8549c9797f-9rksc   1/1     Running            0          25h    10.109.0.165   default-3y8xdn   <none>           <none>
+drakkar-web-8549c9797f-lhqj5   1/1     Running            0          25h    10.109.0.88    default-3y8xv9   <none>           <none>

@@ -1,0 +1,23 @@
+== Billable resources (Fri Sep 18 18:55)
+-- Kubernetes clusters
+Name            Region    Version        Status     Node Pools
+drakkar-demo    nyc3      1.36.3-do.5    running    default
+-- Node pools (drakkar-demo)
+   (cluster not found)
+-- Load balancers
+Name               IP                 Status
+drakkar-lite-lb    134.199.251.181    active
+-- Databases
+Name               Engine    Size              Number of Nodes    Status
+drakkar-demo-pg    pg        db-s-1vcpu-1gb    1                  online
+-- Volumes (should be empty)
+Name    Size    Droplet IDs
+-- Droplets (should only be cluster nodes)
+-- Registry
+Name         Endpoint                               Region slug
+sharkbite    registry.digitalocean.com/sharkbite    nyc3
+
+== Burn rate: 2 node(s), 1 LB, 1 DB, 1 registry  ->  $0.123/hour  ($2.96/day)
+== Month-to-date usage: $0.00   (counted against budget: $0.00 of $50.00)
+== At this rate the remaining $50.00 lasts about 16.9 days
+OK: within budget

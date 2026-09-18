@@ -1,0 +1,8 @@
+$ kubectl -n drakkar get gateway,httproute -o wide
+
+NAME                                        CLASS    ADDRESS           PROGRAMMED   AGE
+gateway.gateway.networking.k8s.io/drakkar   cilium   134.199.251.181   True         25h
+
+NAME                                                         HOSTNAMES                     AGE
+httproute.gateway.networking.k8s.io/drakkar                                                25h
+httproute.gateway.networking.k8s.io/drakkar-https-redirect   ["drakkar.nordheim.online"]   149m

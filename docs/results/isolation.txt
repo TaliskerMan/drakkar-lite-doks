@@ -1,0 +1,8 @@
+▶ Base URL: https://drakkar.nordheim.online
+✔ Created Org A and Org B
+✔ Org A added contact 99822d7a-2959-44a3-910e-d9988be78245
+  Org A sees 1 contact(s)
+  Org B sees 0 contact(s)
+  Org B GET Org A's contact → HTTP 404
+  No token → HTTP 401
+✅ Tenant isolation holds.

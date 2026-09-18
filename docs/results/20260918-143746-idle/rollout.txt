@@ -1,0 +1,8 @@
+$ kubectl -n drakkar rollout history deploy/drakkar-api
+
+deployment.apps/drakkar-api 
+REVISION  CHANGE-CAUSE
+1         <none>
+2         <none>
+3         <none>
+

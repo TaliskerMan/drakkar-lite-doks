@@ -1,0 +1,5 @@
+
+--- deleted pod/drakkar-api-956dc8f56-9t9b6 at 16:48:20 ---
+pod "drakkar-api-956dc8f56-9t9b6" deleted from drakkar namespace
+Done: 205 OK, 0 failed.
+Pods that answered: drakkar-api-956dc8f56-9t9b6 drakkar-api-956dc8f56-cr2vb drakkar-api-956dc8f56-n2fzs 

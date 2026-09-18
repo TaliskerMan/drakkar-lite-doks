@@ -1,0 +1,5 @@
+$ kubectl get nodes -o wide
+
+NAME             STATUS   ROLES    AGE   VERSION   INTERNAL-IP   EXTERNAL-IP    OS-IMAGE                       KERNEL-VERSION                CONTAINER-RUNTIME
+default-3y8xdn   Ready    <none>   26h   v1.36.3   10.108.0.3    45.55.43.194   Debian GNU/Linux 13 (trixie)   6.12.96+deb13-amd64 (amd64)   containerd://2.2.3
+default-3y8xv9   Ready    <none>   26h   v1.36.3   10.108.0.4    64.225.5.252   Debian GNU/Linux 13 (trixie)   6.12.96+deb13-amd64 (amd64)   containerd://2.2.3

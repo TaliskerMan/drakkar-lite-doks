@@ -1,0 +1,37 @@
+# 301 from http:// to https://, pinned to the port-80 listener AND to the
+# hostname.
+#
+# Two precedence rules from the Gateway API spec make this safe, and both are
+# worth being able to recite:
+#
+#  1. Against the app's own HTTPRoute (k8s/gateway.yaml), which sets no
+#     hostnames: a route with a specific hostname outranks one that matches all
+#     hostnames. So http://drakkar.nordheim.online/ redirects, while
+#     http://134.199.251.181/ still serves the app in plain HTTP. That is the
+#     demo-day fallback, and it is deliberate.
+#
+#  2. Against cert-manager's solver route: an Exact path match outranks a
+#     prefix match, and the solver route matches
+#     /.well-known/acme-challenge/<token> exactly. The challenge is served, not
+#     redirected -- so renewal keeps working with the redirect in place.
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: drakkar-https-redirect
+  namespace: drakkar
+spec:
+  parentRefs:
+    - name: drakkar
+      # sectionName scopes this route to the port-80 listener only. Without it
+      # the route would also attach to :443 and cause a redirect loop.
+      sectionName: http
+  hostnames:
+    - drakkar.nordheim.online
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            # 301, not 308: the doc and the tls_check.sh assertion both expect
+            # 301, and no request that reaches this rule has a body to preserve.
+            statusCode: 301

@@ -1,0 +1,60 @@
+$ kubectl -n drakkar get events --sort-by=.lastTimestamp
+
+LAST SEEN   TYPE      REASON                 OBJECT                                          MESSAGE
+54m         Normal    Scheduled              pod/cm-acme-http-solver-5t8m4                   Successfully assigned drakkar/cm-acme-http-solver-5t8m4 to default-3y8xv9
+54m         Normal    Scheduled              pod/drakkar-api-674746977c-g8r4n                Successfully assigned drakkar/drakkar-api-674746977c-g8r4n to default-3y8xdn
+55m         Normal    Scheduled              pod/cm-acme-http-solver-4v86r                   Successfully assigned drakkar/cm-acme-http-solver-4v86r to default-3y8xv9
+54m         Normal    Scheduled              pod/drakkar-web-77fbc64fb7-85k9c                Successfully assigned drakkar/drakkar-web-77fbc64fb7-85k9c to default-3y8xv9
+55m         Normal    WaitingForApproval     certificaterequest/drakkar-tls-1                Not signing CertificateRequest until it is Approved
+55m         Normal    WaitingForApproval     certificaterequest/drakkar-tls-1                Not signing CertificateRequest until it is Approved
+55m         Normal    OrderPending           certificaterequest/drakkar-tls-1                Waiting on certificate issuance from order drakkar/drakkar-tls-1-2561534371: ""
+55m         Normal    WaitingForApproval     certificaterequest/drakkar-tls-1                Not signing CertificateRequest until it is Approved
+55m         Normal    WaitingForApproval     certificaterequest/drakkar-tls-1                Not signing CertificateRequest until it is Approved
+55m         Normal    WaitingForApproval     certificaterequest/drakkar-tls-1                Not signing CertificateRequest until it is Approved
+55m         Normal    cert-manager.io        certificaterequest/drakkar-tls-1                Certificate request has been approved by cert-manager.io
+55m         Normal    Requested              certificate/drakkar-tls                         Created new CertificateRequest resource "drakkar-tls-1"
+55m         Normal    Generated              certificate/drakkar-tls                         Stored new private key in temporary Secret resource "drakkar-tls-wm4sk"
+55m         Normal    OrderCreated           certificaterequest/drakkar-tls-1                Created Order resource drakkar/drakkar-tls-1-2561534371
+55m         Normal    Issuing                certificate/drakkar-tls                         Issuing certificate as Secret does not exist
+55m         Normal    Created                order/drakkar-tls-1-2561534371                  Created Challenge resource "drakkar-tls-1-2561534371-2830406947" for domain "drakkar.nordheim.online"
+55m         Normal    Started                challenge/drakkar-tls-1-2561534371-2830406947   Challenge scheduled for processing
+55m         Normal    Presented              challenge/drakkar-tls-1-2561534371-2830406947   Presented challenge using HTTP-01 challenge mechanism
+55m         Normal    Pulling                pod/cm-acme-http-solver-4v86r                   Pulling image "quay.io/jetstack/cert-manager-acmesolver:v1.21.2"
+55m         Normal    Started                pod/cm-acme-http-solver-4v86r                   Container started
+55m         Normal    Created                pod/cm-acme-http-solver-4v86r                   Container created
+55m         Normal    Pulled                 pod/cm-acme-http-solver-4v86r                   Successfully pulled image "quay.io/jetstack/cert-manager-acmesolver:v1.21.2" in 1.16s (1.16s including waiting). Image size: 6617794 bytes.
+54m         Normal    DomainVerified         challenge/drakkar-tls-1-2561534371-2830406947   Domain "drakkar.nordheim.online" verified with "HTTP-01" validation
+54m         Normal    Killing                pod/cm-acme-http-solver-4v86r                   Stopping container acmesolver
+54m         Normal    CertificateIssued      certificaterequest/drakkar-tls-1                Certificate fetched from issuer successfully
+54m         Normal    Complete               order/drakkar-tls-1-2561534371                  Order completed successfully
+54m         Normal    SuccessfulCreate       replicaset/drakkar-web-77fbc64fb7               Created pod: drakkar-web-77fbc64fb7-85k9c
+54m         Normal    SuccessfulCreate       replicaset/drakkar-api-674746977c               Created pod: drakkar-api-674746977c-g8r4n
+54m         Normal    ScalingReplicaSet      deployment/drakkar-api                          Scaled up replica set drakkar-api-674746977c from 0 to 1
+54m         Normal    ScalingReplicaSet      deployment/drakkar-web                          Scaled up replica set drakkar-web-77fbc64fb7 from 0 to 1
+54m         Normal    cert-manager.io        certificaterequest/drakkar-tls-2                Certificate request has been approved by cert-manager.io
+54m         Normal    OrderCreated           certificaterequest/drakkar-tls-2                Created Order resource drakkar/drakkar-tls-2-3922451475
+54m         Normal    Requested              certificate/drakkar-tls                         Created new CertificateRequest resource "drakkar-tls-2"
+54m         Normal    Generated              certificate/drakkar-tls                         Stored new private key in temporary Secret resource "drakkar-tls-bnlnf"
+54m         Normal    Issuing                certificate/drakkar-tls                         Issuing certificate as Secret was previously issued by "ClusterIssuer.cert-manager.io/letsencrypt-staging"
+54m         Normal    EnsuringLoadBalancer   service/cilium-gateway-drakkar                  Ensuring load balancer
+54m         Normal    WaitingForApproval     certificaterequest/drakkar-tls-2                Not signing CertificateRequest until it is Approved
+54m         Normal    WaitingForApproval     certificaterequest/drakkar-tls-2                Not signing CertificateRequest until it is Approved
+54m         Normal    WaitingForApproval     certificaterequest/drakkar-tls-2                Not signing CertificateRequest until it is Approved
+54m         Normal    WaitingForApproval     certificaterequest/drakkar-tls-2                Not signing CertificateRequest until it is Approved
+54m         Normal    WaitingForApproval     certificaterequest/drakkar-tls-2                Not signing CertificateRequest until it is Approved
+54m         Normal    EnsuredLoadBalancer    service/cilium-gateway-drakkar                  Ensured load balancer
+54m         Normal    Created                order/drakkar-tls-2-3922451475                  Created Challenge resource "drakkar-tls-2-3922451475-1335777120" for domain "drakkar.nordheim.online"
+54m         Normal    Started                challenge/drakkar-tls-2-3922451475-1335777120   Challenge scheduled for processing
+54m         Normal    Presented              challenge/drakkar-tls-2-3922451475-1335777120   Presented challenge using HTTP-01 challenge mechanism
+54m         Normal    Started                pod/cm-acme-http-solver-5t8m4                   Container started
+54m         Normal    Pulled                 pod/cm-acme-http-solver-5t8m4                   Container image "quay.io/jetstack/cert-manager-acmesolver:v1.21.2" already present on machine and can be accessed by the pod
+54m         Normal    Created                pod/cm-acme-http-solver-5t8m4                   Container created
+54m         Normal    Killing                pod/cm-acme-http-solver-5t8m4                   Stopping container acmesolver
+54m         Normal    Issuing                certificate/drakkar-tls                         The certificate has been successfully issued
+54m         Normal    DomainVerified         challenge/drakkar-tls-2-3922451475-1335777120   Domain "drakkar.nordheim.online" verified with "HTTP-01" validation
+54m         Normal    CertificateIssued      certificaterequest/drakkar-tls-2                Certificate fetched from issuer successfully
+54m         Normal    Complete               order/drakkar-tls-2-3922451475                  Order completed successfully
+52m         Warning   Failed                 pod/drakkar-api-674746977c-g8r4n                Error: InvalidImageName
+52m         Warning   Failed                 pod/drakkar-web-77fbc64fb7-85k9c                Error: InvalidImageName
+4m31s       Warning   InspectFailed          pod/drakkar-web-77fbc64fb7-85k9c                Failed to apply default image tag "registry.digitalocean.com/YOUR_REGISTRY/drakkar-web:v0.1.0": couldn't parse image name "registry.digitalocean.com/YOUR_REGISTRY/drakkar-web:v0.1.0": invalid reference format: repository name (YOUR_REGISTRY/drakkar-web) must be lowercase
+4m29s       Warning   InspectFailed          pod/drakkar-api-674746977c-g8r4n                Failed to apply default image tag "registry.digitalocean.com/YOUR_REGISTRY/drakkar-api:v0.1.0": couldn't parse image name "registry.digitalocean.com/YOUR_REGISTRY/drakkar-api:v0.1.0": invalid reference format: repository name (YOUR_REGISTRY/drakkar-api) must be lowercase

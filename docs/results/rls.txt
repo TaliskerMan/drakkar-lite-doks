@@ -1,0 +1,10 @@
+  relname   | relrowsecurity | relforcerowsecurity 
+------------+----------------+---------------------
+ audit_logs | t              | t
+ contacts   | t              | t
+(2 rows)
+
+All commands and output from this session will be recorded in container logs, including credentials and sensitive information passed through the command prompt.
+If you don't see a command prompt, try pressing enter.
+warning: couldn't attach to pod/pgcheck, falling back to streaming logs: Internal error occurred: unable to upgrade connection: container pgcheck not found in pod pgcheck_default
+pod "pgcheck" deleted from default namespace

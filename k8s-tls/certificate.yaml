@@ -1,0 +1,39 @@
+# The certificate request. cert-manager watches this, runs the HTTP-01
+# challenge, and writes the result into the Secret named below.
+#
+# scripts/enable_tls.sh applies this file on its own and waits for
+# Ready=True BEFORE applying the overlay that adds the :443 listener. If the
+# listener appeared first it would reference a Secret that does not exist yet
+# and the Gateway would sit at ResolvedRefs: False.
+#
+# The script rewrites issuerRef.name to letsencrypt-staging when STAGING=1.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: drakkar-tls
+  namespace: drakkar
+spec:
+  # cert-manager creates this Secret. Deleting the cluster destroys it; see
+  # 04_HTTPS_SETUP.md §9 for the backup step before the Mon 9/21 rebuild.
+  secretName: drakkar-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+    group: cert-manager.io
+  dnsNames:
+    - drakkar.nordheim.online
+  # ECDSA P-256: smaller handshake than RSA-2048 and universally supported by
+  # anything that can talk TLS 1.2. rotationPolicy Always generates a fresh
+  # private key on every renewal rather than re-signing the existing one.
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+    encoding: PKCS8
+    rotationPolicy: Always
+  # Renew at day 60 of 90, leaving a 30-day window to notice a failure.
+  duration: 2160h
+  renewBefore: 720h
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth

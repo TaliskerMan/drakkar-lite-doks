@@ -1,0 +1,38 @@
+--- history before ---
+deployment.apps/drakkar-api 
+REVISION  CHANGE-CAUSE
+1         <none>
+4         <none>
+6         <none>
+7         <none>
+8         <none>
+9         <none>
+
+
+--- rollout undo at 16:49:40 ---
+Warning: resource deployments/drakkar-api was previously managed with 'kubectl apply'. Rolling back will not update the kubectl.kubernetes.io/last-applied-configuration annotation, which may cause unexpected behavior on future 'kubectl apply' operations. Consider using 'kubectl apply' with your previous configuration file instead.
+deployment.apps/drakkar-api rolled back
+
+Waiting for deployment "drakkar-api" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "drakkar-api" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "drakkar-api" rollout to finish: 1 out of 2 new replicas have been updated...
+Waiting for deployment "drakkar-api" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "drakkar-api" rollout to finish: 1 old replicas are pending termination...
+deployment "drakkar-api" successfully rolled out
+
+--- history after ---
+deployment.apps/drakkar-api 
+REVISION  CHANGE-CAUSE
+1         <none>
+4         <none>
+6         <none>
+7         <none>
+9         <none>
+10        <none>
+
+
+NAME                          READY   STATUS        RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Terminating   0          3m22s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Terminating   0          84s     10.109.0.132   default-3y8xdn   <none>           <none>
+drakkar-api-c9d66c69c-hjgv7   1/1     Running       0          3s      10.109.0.69    default-3y8xv9   <none>           <none>
+drakkar-api-c9d66c69c-t9vnr   1/1     Running       0          2s      10.109.0.48    default-3y8xv9   <none>           <none>

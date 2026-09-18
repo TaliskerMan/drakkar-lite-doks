@@ -1,0 +1,6 @@
+$ kubectl -n drakkar get svc -o wide
+
+NAME                     TYPE           CLUSTER-IP      EXTERNAL-IP       PORT(S)                      AGE   SELECTOR
+cilium-gateway-drakkar   LoadBalancer   10.108.57.94    134.199.251.181   80:32345/TCP,443:31911/TCP   23h   <none>
+drakkar-api              ClusterIP      10.108.35.18    <none>            8080/TCP                     23h   app=drakkar-api
+drakkar-web              ClusterIP      10.108.60.251   <none>            8080/TCP                     23h   app=drakkar-web

@@ -1,0 +1,4 @@
+$ doctl kubernetes cluster node-pool list drakkar-demo
+
+ID                                      Name       Size           Count    Tags                                                       Labels    Taints    Nodes
+f3d280d2-348a-4526-8bcd-d9031f53ad6a    default    s-2vcpu-4gb    2        k8s,k8s:4356b9d9-ede9-4d16-b813-33c0e920d5a4,k8s:worker    map[]     []        [default-3y8xv9 default-3y8xdn]

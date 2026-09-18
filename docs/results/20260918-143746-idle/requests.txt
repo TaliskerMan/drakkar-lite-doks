@@ -1,0 +1,9 @@
+$ kubectl -n drakkar get pods -o custom-columns=POD:.metadata.name,CPU_REQ:.spec.containers[*].resources.requests.cpu,MEM_REQ:.spec.containers[*].resources.requests.memory,MEM_LIM:.spec.containers[*].resources.limits.memory,NODE:.spec.nodeName
+
+POD                            CPU_REQ   MEM_REQ   MEM_LIM   NODE
+drakkar-api-674746977c-g8r4n   100m      128Mi     512Mi     default-3y8xdn
+drakkar-api-c9d66c69c-27wcs    100m      128Mi     512Mi     default-3y8xv9
+drakkar-api-c9d66c69c-t4cjt    100m      128Mi     512Mi     default-3y8xv9
+drakkar-web-77fbc64fb7-85k9c   50m       64Mi      128Mi     default-3y8xv9
+drakkar-web-8549c9797f-9rksc   50m       64Mi      128Mi     default-3y8xdn
+drakkar-web-8549c9797f-lhqj5   50m       64Mi      128Mi     default-3y8xv9

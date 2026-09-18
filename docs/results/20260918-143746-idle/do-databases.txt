@@ -1,0 +1,4 @@
+$ doctl databases list
+
+ID                                      Name               Engine    Version    Number of Nodes    Region    Status    Size              Storage (MiB)
+637d4609-40cf-4aab-a0c2-50134114c39b    drakkar-demo-pg    pg        18         1                  nyc3      online    db-s-1vcpu-1gb    10240

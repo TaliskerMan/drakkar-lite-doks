@@ -1,0 +1,122 @@
+16:48:20
+NAME                          READY   STATUS              RESTARTS   AGE    IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-9t9b6   1/1     Terminating         0          2m     10.109.0.221   default-3y8xdn   <none>           <none>
+drakkar-api-956dc8f56-cr2vb   1/1     Running             0          119s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   0/1     ContainerCreating   0          1s     <none>         default-3y8xdn   <none>           <none>
+
+16:48:24
+NAME                          READY   STATUS        RESTARTS   AGE    IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-9t9b6   1/1     Terminating   0          2m3s   10.109.0.221   default-3y8xdn   <none>           <none>
+drakkar-api-956dc8f56-cr2vb   1/1     Running       0          2m2s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running       0          4s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:48:27
+NAME                          READY   STATUS    RESTARTS   AGE    IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m5s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          7s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:48:30
+NAME                          READY   STATUS    RESTARTS   AGE    IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m9s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          11s    10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:48:34
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m13s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          15s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:48:38
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m16s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          18s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:48:41
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m19s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          21s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:48:44
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m23s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          25s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:48:48
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m26s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          28s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:48:51
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m30s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          32s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:48:55
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m33s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          35s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:48:58
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m36s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          38s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:49:01
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m40s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          42s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:49:05
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m43s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          45s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:49:08
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m46s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          48s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:49:11
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m50s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          52s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:49:15
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m53s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          55s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:49:18
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          2m57s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          59s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:49:22
+NAME                          READY   STATUS    RESTARTS   AGE   IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          3m    10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          62s   10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:49:25
+NAME                          READY   STATUS    RESTARTS   AGE    IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          3m3s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          65s    10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:49:28
+NAME                          READY   STATUS    RESTARTS   AGE    IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          3m7s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          69s    10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:49:32
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          3m10s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          72s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:49:35
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          3m14s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          76s     10.109.0.132   default-3y8xdn   <none>           <none>
+
+16:49:39
+NAME                          READY   STATUS    RESTARTS   AGE     IP             NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-956dc8f56-cr2vb   1/1     Running   0          3m17s   10.109.0.27    default-3y8xv9   <none>           <none>
+drakkar-api-956dc8f56-n2fzs   1/1     Running   0          79s     10.109.0.132   default-3y8xdn   <none>           <none>
+

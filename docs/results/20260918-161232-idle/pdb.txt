@@ -1,0 +1,5 @@
+$ kubectl -n drakkar get pdb
+
+NAME          MIN AVAILABLE   MAX UNAVAILABLE   ALLOWED DISRUPTIONS   AGE
+drakkar-api   1               N/A               1                     25h
+drakkar-web   1               N/A               1                     25h

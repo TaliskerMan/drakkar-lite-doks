@@ -1,0 +1,3 @@
+NAME                          READY   STATUS    RESTARTS   AGE   IP            NODE             NOMINATED NODE   READINESS GATES
+drakkar-api-c9d66c69c-27wcs   1/1     Running   0          25h   10.109.0.66   default-3y8xv9   <none>           <none>
+drakkar-api-c9d66c69c-t4cjt   1/1     Running   0          25h   10.109.0.96   default-3y8xv9   <none>           <none>

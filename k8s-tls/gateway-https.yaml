@@ -1,0 +1,40 @@
+# Patch that adds the :443 listener to the existing Gateway.
+#
+# BOTH listeners are listed deliberately. Gateway is a CRD, so kustomize has no
+# structural schema for it and falls back to a JSON merge patch, which REPLACES
+# arrays rather than merging them. Omitting the http listener here would delete
+# it -- and with it the port-80 path that the ACME challenge and the redirect
+# both depend on.
+#
+# Fields not mentioned here (gatewayClassName, infrastructure.annotations) are
+# left untouched by a merge patch, so the DigitalOcean load balancer keeps its
+# name and is not recreated.
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: drakkar
+spec:
+  listeners:
+    # Unchanged from k8s/gateway.yaml. Must stay open: cert-manager serves the
+    # HTTP-01 challenge here every renewal, and the bare-IP fallback rides on it.
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: drakkar.nordheim.online
+      tls:
+        # Terminate: Cilium's Envoy decrypts here. The DigitalOcean load
+        # balancer stays a plain TCP forwarder and never sees plaintext.
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            group: ""
+            name: drakkar-tls
+      allowedRoutes:
+        namespaces:
+          from: Same

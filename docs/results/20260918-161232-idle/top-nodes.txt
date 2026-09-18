@@ -1,0 +1,5 @@
+$ kubectl top nodes
+
+NAME             CPU(cores)   CPU(%)   MEMORY(bytes)   MEMORY(%)   
+default-3y8xdn   125m         6%       1036Mi          34%         
+default-3y8xv9   97m          5%       993Mi           33%         

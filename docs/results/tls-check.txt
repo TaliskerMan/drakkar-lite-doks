@@ -1,0 +1,27 @@
+[1mTLS check -- drakkar.nordheim.online -- 2026-09-18T16:11:15-05:00[0m
+
+[1mCertificate[0m
+  issuer=C = US, O = Let's Encrypt, CN = YE2
+  [32m[pass][0m issued by Let's Encrypt
+  [32m[pass][0m drakkar.nordheim.online is in the SANs
+  [32m[pass][0m valid for 89 more days (expires Dec 17 17:45:05 2026 GMT)
+
+[1mTrust and routing[0m
+  [32m[pass][0m curl trusts the chain without -k
+  [32m[pass][0m http:// returns 301
+  [32m[pass][0m web client answers 200 over TLS
+  [32m[pass][0m API answers 401 at /v1/auth/me over TLS (expected: unauthenticated)
+
+[1mProtocol versions[0m
+  [32m[pass][0m TLS 1.2 accepted
+  [32m[pass][0m TLS 1.3 accepted
+  [32m[pass][0m TLS 1.1 refused
+
+[1mCluster state[0m
+  [32m[pass][0m Certificate drakkar-tls is Ready
+  [32m[pass][0m no ACME challenges pending
+  [32m[pass][0m Gateway is Programmed
+
+[32m[1mAll checks passed.[0m
+Now open https://drakkar.nordheim.online, click the padlock, and screenshot the certificate.
+

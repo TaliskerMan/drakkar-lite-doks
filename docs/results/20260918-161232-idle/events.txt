@@ -1,0 +1,5 @@
+$ kubectl -n drakkar get events --sort-by=.lastTimestamp
+
+LAST SEEN   TYPE      REASON          OBJECT                             MESSAGE
+4m45s       Warning   InspectFailed   pod/drakkar-api-674746977c-kdlct   Failed to apply default image tag "registry.digitalocean.com/YOUR_REGISTRY/drakkar-api:v0.1.0": couldn't parse image name "registry.digitalocean.com/YOUR_REGISTRY/drakkar-api:v0.1.0": invalid reference format: repository name (YOUR_REGISTRY/drakkar-api) must be lowercase
+4m15s       Warning   InspectFailed   pod/drakkar-web-77fbc64fb7-85k9c   Failed to apply default image tag "registry.digitalocean.com/YOUR_REGISTRY/drakkar-web:v0.1.0": couldn't parse image name "registry.digitalocean.com/YOUR_REGISTRY/drakkar-web:v0.1.0": invalid reference format: repository name (YOUR_REGISTRY/drakkar-web) must be lowercase

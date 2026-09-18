@@ -1,0 +1,7 @@
+$ kubectl -n drakkar top pods
+
+NAME                           CPU(cores)   MEMORY(bytes)   
+drakkar-api-c9d66c69c-27wcs    1m           10Mi            
+drakkar-api-c9d66c69c-t4cjt    1m           11Mi            
+drakkar-web-8549c9797f-9rksc   1m           3Mi             
+drakkar-web-8549c9797f-lhqj5   1m           3Mi             

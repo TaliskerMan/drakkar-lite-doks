@@ -1,0 +1,5 @@
+$ doctl registry repository list-v2
+
+Name           Latest Manifest                                                            Latest Tag    Tag Count    Manifest Count    Updated At
+drakkar-api    sha256:2c6a6dec0cc10162ced49a008e1e0fab524b240d83171c1a645cf05451bf98a9    v0.1.0        1            1                 2026-09-17 19:46:34 +0000 UTC
+drakkar-web    sha256:c9ae126b866bc1f2e4c330e61d17f5c865e6c116938d80775bfe8c5d2fbbf236    v0.1.0        2            3                 2026-09-17 19:43:32 +0000 UTC

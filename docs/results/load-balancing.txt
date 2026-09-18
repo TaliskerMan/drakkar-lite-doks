@@ -1,0 +1,14 @@
+$ curl -s -D - https://drakkar.nordheim.online/v1/auth/me  (x12, showing x-served-by)
+
+drakkar-api-c9d66c69c-t4cjt
+drakkar-api-c9d66c69c-27wcs
+drakkar-api-c9d66c69c-t4cjt
+drakkar-api-c9d66c69c-t4cjt
+drakkar-api-c9d66c69c-t4cjt
+drakkar-api-c9d66c69c-27wcs
+drakkar-api-c9d66c69c-27wcs
+drakkar-api-c9d66c69c-t4cjt
+drakkar-api-c9d66c69c-27wcs
+drakkar-api-c9d66c69c-27wcs
+drakkar-api-c9d66c69c-t4cjt
+drakkar-api-c9d66c69c-27wcs

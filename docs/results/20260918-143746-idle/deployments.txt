@@ -1,0 +1,5 @@
+$ kubectl -n drakkar get deploy -o wide
+
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                                                       SELECTOR
+drakkar-api   2/2     1            2           23h   api          registry.digitalocean.com/YOUR_REGISTRY/drakkar-api:v0.1.0   app=drakkar-api
+drakkar-web   2/2     1            2           23h   web          registry.digitalocean.com/YOUR_REGISTRY/drakkar-web:v0.1.0   app=drakkar-web

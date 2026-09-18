@@ -1,0 +1,52 @@
+# Let's Encrypt accounts, staging and production.
+#
+# These are ClusterIssuers (cluster-scoped) on purpose: the ACME account key
+# lives in cert-manager's own namespace and is reusable if this kit ever grows a
+# second namespace. They are applied directly by scripts/enable_tls.sh rather
+# than through k8s-tls/kustomization.yaml, because kustomize's `namespace:`
+# transformer cannot tell that a ClusterIssuer is cluster-scoped and would stamp
+# `metadata.namespace: drakkar` onto it.
+#
+# The HTTP-01 solver routes through the Gateway API, which requires cert-manager
+# to be installed with `config.enableGatewayAPI=true` (the supported flag since
+# cert-manager 1.16). cert-manager then creates a short-lived HTTPRoute with an
+# Exact path match on /.well-known/acme-challenge/<token>, attached to the
+# Gateway below.
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: chuck@nordheim.online
+    privateKeySecretRef:
+      name: letsencrypt-staging-account-key
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - name: drakkar
+                namespace: drakkar
+                kind: Gateway
+                group: gateway.networking.k8s.io
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: chuck@nordheim.online
+    privateKeySecretRef:
+      name: letsencrypt-prod-account-key
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - name: drakkar
+                namespace: drakkar
+                kind: Gateway
+                group: gateway.networking.k8s.io
