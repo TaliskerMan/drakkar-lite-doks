@@ -14,8 +14,8 @@ resources:
   - scaling.yaml
 images:
   - name: drakkar-api
-    newName: registry.digitalocean.com/YOUR_REGISTRY/drakkar-api
+    newName: registry.digitalocean.com/sharkbite/drakkar-api
     newTag: v0.1.0
   - name: drakkar-web
-    newName: registry.digitalocean.com/YOUR_REGISTRY/drakkar-web
+    newName: registry.digitalocean.com/sharkbite/drakkar-web
     newTag: v0.1.0
