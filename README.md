@@ -7,6 +7,11 @@ A small multi-tenant SaaS web app (organization sign-up, sign-in, and a searchab
 - **Horizontal Pod Autoscaler** on CPU (2–5 API pods) and the **Cluster Autoscaler** on the node pool (2–3 nodes)
 - **DigitalOcean Managed PostgreSQL** over the private VPC, with TLS and Row-Level Security for tenant isolation
 - Zero-downtime rolling updates, PodDisruptionBudgets, health probes, and restricted Pod Security
+- **HTTPS** with a free Let's Encrypt certificate issued and renewed by **cert-manager**; TLS terminates at the Gateway, and HTTP redirects to HTTPS
+
+Live at **https://drakkar.nordheim.online**.
+
+**Documents:** [Setup guide](docs/SETUP_GUIDE.md) · [Cost analysis](docs/COST_ANALYSIS.md) · [QBR](docs/QBR.md) · [Architecture diagram](docs/architecture.png) ([SVG](docs/architecture.svg), [Mermaid source](docs/architecture.mmd)) · [Test evidence](docs/results/)
 
 Author: Chuck Talk · Built for the DigitalOcean TAM case study.
 
@@ -15,12 +20,19 @@ Author: Chuck Talk · Built for the DigitalOcean TAM case study.
 ## Architecture
 
 ```mermaid
-flowchart LR
-  U[Users] -->|HTTP :80| LB[DigitalOcean Load Balancer<br/>drakkar-lite-lb]
+flowchart TB
+  U[Users / browsers] -->|"HTTPS :443<br/>(HTTP :80 → 301 redirect)"| LB[DigitalOcean Load Balancer<br/>drakkar-lite-lb<br/>TCP pass-through]
+  U -. "DNS lookup" .-> DNS[Cloudflare DNS<br/>drakkar.nordheim.online<br/>A record · DNS only]
+  DNS -. "resolves to LB IP" .-> LB
+  LE[Let's Encrypt<br/>ACME CA] -->|"HTTP-01 challenge :80"| LB
   subgraph VPC["DigitalOcean VPC (one region)"]
-    subgraph DOKS["DOKS cluster · node pool: 2–3 × s-2vcpu-4gb (Cluster Autoscaler)"]
-      GW[Gateway 'drakkar'<br/>Cilium Gateway API]
+    subgraph DOKS["DOKS cluster · HA control plane · node pool: 2–3 × s-2vcpu-4gb (Cluster Autoscaler)"]
+      GW[Gateway 'drakkar'<br/>Cilium Gateway API<br/>listeners :80 + :443<br/>TLS terminates here]
+      subgraph CMNS["namespace cert-manager"]
+        CM[cert-manager<br/>issues + renews certificate]
+      end
       subgraph NS["namespace drakkar (Pod Security: restricted)"]
+        TLS[/Secret drakkar-tls<br/>Let's Encrypt certificate/]
         WEB[drakkar-web ×2<br/>nginx + Flutter web]
         API[drakkar-api ×2–5<br/>Dart API · HPA @70% CPU]
         JOB[Job drakkar-migrate]
@@ -33,6 +45,9 @@ flowchart LR
   LB -->|to every worker node| GW
   GW -->|/v1/*| API
   GW -->|/*| WEB
+  CM -. "ACME order" .-> LE
+  CM -->|writes| TLS
+  TLS -. certificate .-> GW
   API -->|TLS · role drakkar_app| PG
   JOB -->|TLS · role doadmin| PG
   MS -. CPU metrics .-> API
@@ -44,6 +59,8 @@ flowchart LR
 | `/v1/...` | `drakkar-api` Service | JSON API (longest-prefix match wins) |
 | everything else | `drakkar-web` Service | Flutter web app, same origin, so no CORS |
 | `/healthz`, `/readyz`, `/metrics` | not exposed publicly | Probes and Prometheus metrics stay inside the cluster |
+
+HTTPS: `drakkar.nordheim.online` is an A record at Cloudflare (DNS only, not proxied) pointing at the load balancer. The load balancer passes traffic through; the Gateway's `:443` listener terminates TLS with the certificate cert-manager stores in the `drakkar-tls` Secret, and the `:80` listener redirects to HTTPS (it also answers Let's Encrypt's HTTP-01 challenge).
 
 ## Repository layout
 
@@ -87,8 +104,8 @@ Or step by step:
 (cd web && flutter create --platforms=web --project-name drakkar_web . \
         && flutter pub get && flutter analyze && flutter test \
         && flutter build web --release --no-web-resources-cdn)
-docker compose up --build        # web: http://localhost:8081   api: http://localhost:8080
-scripts/isolation_demo.sh http://localhost:8081
+docker compose up --build        # web: http://localhost:18081   api: http://localhost:18080
+scripts/isolation_demo.sh http://localhost:18081
 ```
 
 (`flutter create .` only adds the missing web scaffold. It doesn't overwrite existing files.)
@@ -148,6 +165,17 @@ scripts/isolation_demo.sh http://<LB_IP>
 
 If the Gateway never gets an address, use Plan B: `kubectl -n drakkar apply -f k8s/extras/web-loadbalancer.yaml`.
 
+## 3a. Turn on HTTPS
+
+Point an A record for your hostname at the load balancer IP (at Cloudflare: **DNS only**, grey cloud), then:
+
+```bash
+scripts/enable_tls.sh                          # installs cert-manager, issues the certificate, adds :443 and the redirect
+scripts/tls_check.sh drakkar.nordheim.online   # every line should pass
+```
+
+From here on, apply the TLS overlay instead of the base: `kubectl apply -k k8s-tls` (it includes everything in `k8s/`). Applying plain `k8s/` would remove the HTTPS listener. Full walkthrough: [docs/SETUP_GUIDE.md](docs/SETUP_GUIDE.md), Part 4.
+
 ## 4. Validate and measure
 
 ```bash
@@ -166,7 +194,7 @@ scripts/collect_evidence.sh under-load
 ```bash
 TAG=v0.1.1 && scripts/set_registry.sh $REG $TAG
 # build and push both images as in step 3, re-run the migrate Job, then:
-kubectl apply -k k8s && kubectl -n drakkar rollout status deploy/drakkar-api
+kubectl apply -k k8s-tls && kubectl -n drakkar rollout status deploy/drakkar-api   # k8s-tls once HTTPS is on
 kubectl -n drakkar rollout undo deploy/drakkar-api     # roll back if needed
 ```
 
