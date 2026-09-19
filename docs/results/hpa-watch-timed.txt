@@ -1,0 +1,27 @@
+16:01:34 NAME          REFERENCE                TARGETS       MINPODS   MAXPODS   REPLICAS   AGE
+16:01:34 drakkar-api   Deployment/drakkar-api   cpu: 2%/70%   2         5         2          2d1h
+16:01:56 drakkar-api   Deployment/drakkar-api   cpu: 1%/70%   2         5         2          2d1h
+16:02:11 drakkar-api   Deployment/drakkar-api   cpu: 47%/70%   2         5         2          2d1h
+16:02:26 drakkar-api   Deployment/drakkar-api   cpu: 842%/70%   2         5         2          2d1h
+16:02:41 drakkar-api   Deployment/drakkar-api   cpu: 858%/70%   2         5         5          2d1h
+16:02:56 drakkar-api   Deployment/drakkar-api   cpu: 540%/70%   2         5         5          2d1h
+16:03:11 drakkar-api   Deployment/drakkar-api   cpu: 477%/70%   2         5         5          2d1h
+16:03:26 drakkar-api   Deployment/drakkar-api   cpu: 526%/70%   2         5         5          2d1h
+16:03:41 drakkar-api   Deployment/drakkar-api   cpu: 530%/70%   2         5         5          2d1h
+16:03:56 drakkar-api   Deployment/drakkar-api   cpu: 506%/70%   2         5         5          2d1h
+16:04:26 drakkar-api   Deployment/drakkar-api   cpu: 495%/70%   2         5         5          2d1h
+16:04:42 drakkar-api   Deployment/drakkar-api   cpu: 523%/70%   2         5         5          2d1h
+16:04:56 drakkar-api   Deployment/drakkar-api   cpu: 505%/70%   2         5         5          2d1h
+16:05:12 drakkar-api   Deployment/drakkar-api   cpu: 486%/70%   2         5         5          2d1h
+16:05:26 drakkar-api   Deployment/drakkar-api   cpu: 519%/70%   2         5         5          2d1h
+16:05:42 drakkar-api   Deployment/drakkar-api   cpu: 492%/70%   2         5         5          2d1h
+16:05:57 drakkar-api   Deployment/drakkar-api   cpu: 516%/70%   2         5         5          2d1h
+16:06:12 drakkar-api   Deployment/drakkar-api   cpu: 425%/70%   2         5         5          2d1h
+16:06:27 drakkar-api   Deployment/drakkar-api   cpu: 167%/70%   2         5         5          2d1h
+16:06:42 drakkar-api   Deployment/drakkar-api   cpu: 1%/70%     2         5         5          2d1h
+16:07:27 drakkar-api   Deployment/drakkar-api   cpu: 1%/70%     2         5         5          2d1h
+16:07:42 drakkar-api   Deployment/drakkar-api   cpu: 1%/70%     2         5         2          2d1h
+16:09:27 drakkar-api   Deployment/drakkar-api   cpu: 2%/70%     2         5         2          2d1h
+16:09:42 drakkar-api   Deployment/drakkar-api   cpu: 1%/70%     2         5         2          2d1h
+16:09:57 drakkar-api   Deployment/drakkar-api   cpu: 2%/70%     2         5         2          2d1h
+16:10:12 drakkar-api   Deployment/drakkar-api   cpu: 1%/70%     2         5         2          2d1h
