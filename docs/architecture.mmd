@@ -1,9 +1,16 @@
-flowchart LR
-  U[Users] -->|HTTP :80| LB[DigitalOcean Load Balancer<br/>drakkar-lite-lb]
+flowchart TB
+  U[Users / browsers] -->|"HTTPS :443<br/>(HTTP :80 → 301 redirect)"| LB[DigitalOcean Load Balancer<br/>drakkar-lite-lb<br/>TCP pass-through]
+  U -. "DNS lookup" .-> DNS[Cloudflare DNS<br/>drakkar.nordheim.online<br/>A record · DNS only]
+  DNS -. "resolves to LB IP" .-> LB
+  LE[Let's Encrypt<br/>ACME CA] -->|"HTTP-01 challenge :80"| LB
   subgraph VPC["DigitalOcean VPC (one region)"]
-    subgraph DOKS["DOKS cluster · node pool: 2–3 × s-2vcpu-4gb (Cluster Autoscaler)"]
-      GW[Gateway 'drakkar'<br/>Cilium Gateway API]
+    subgraph DOKS["DOKS cluster · HA control plane · node pool: 2–3 × s-2vcpu-4gb (Cluster Autoscaler)"]
+      GW[Gateway 'drakkar'<br/>Cilium Gateway API<br/>listeners :80 + :443<br/>TLS terminates here]
+      subgraph CMNS["namespace cert-manager"]
+        CM[cert-manager<br/>issues + renews certificate]
+      end
       subgraph NS["namespace drakkar (Pod Security: restricted)"]
+        TLS[/Secret drakkar-tls<br/>Let's Encrypt certificate/]
         WEB[drakkar-web ×2<br/>nginx + Flutter web]
         API[drakkar-api ×2–5<br/>Dart API · HPA @70% CPU]
         JOB[Job drakkar-migrate]
@@ -16,6 +23,9 @@ flowchart LR
   LB -->|to every worker node| GW
   GW -->|/v1/*| API
   GW -->|/*| WEB
+  CM -. "ACME order" .-> LE
+  CM -->|writes| TLS
+  TLS -. certificate .-> GW
   API -->|TLS · role drakkar_app| PG
   JOB -->|TLS · role doadmin| PG
   MS -. CPU metrics .-> API
