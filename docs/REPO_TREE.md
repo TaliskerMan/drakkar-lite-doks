@@ -1,0 +1,344 @@
+# Drakkar Lite on DOKS — Repository Layout
+
+Path: `~/AntiGravity/drakkar-lite-doks/`  ·  Generated 2026-09-20
+Excludes: `.git/`, `.dart_tool/`, `build/`, `.DS_Store`
+
+## At a glance
+
+| Directory | Contents |
+| --- | --- |
+| `core/` | Shared Dart package — contact model, validation, security validator |
+| `server/` | Dart API service — routes, auth, Postgres repo, migrations, metrics, audit; Dockerfile |
+| `web/` | Flutter web client — auth and contacts screens, API client, nginx config; Dockerfile |
+| `k8s/` | Base Kubernetes manifests — namespace, api, web, gateway, scaling, migration job |
+| `k8s-tls/` | TLS overlay — cert-manager ClusterIssuer, Certificate, HTTPS gateway, HTTP redirect |
+| `scripts/` | Operational scripts — build verify, TLS enable/check, load test (k6), evidence collection, cost check |
+| `docs/` | Architecture diagram, setup guide, cost analysis, QBR, and captured evidence under `results/` |
+| `presentation/` | Customer-facing deck (PDF) |
+| `local/` | Local Postgres bootstrap SQL for docker-compose |
+
+## Condensed tree
+
+```
+drakkar-lite-doks/
+├── core/
+│   ├── lib/
+│   │   ├── src/
+│   │   │   ├── contact.dart
+│   │   │   ├── security_validator.dart
+│   │   │   └── validation.dart
+│   │   └── drakkar_core.dart
+│   ├── test/
+│   │   └── contact_test.dart
+│   ├── analysis_options.yaml
+│   ├── pubspec.lock
+│   └── pubspec.yaml
+├── docs/
+│   ├── results/
+│   │   ├── 20260918-143746-idle/   (18 evidence files)
+│   │   ├── 20260918-161232-idle/   (18 evidence files)
+│   │   ├── .gitkeep
+│   │   ├── api-logs.txt
+│   │   ├── api-metrics.txt
+│   │   ├── cost-2026-09-18.txt
+│   │   ├── cost-idle.txt
+│   │   ├── drain-check.txt
+│   │   ├── hpa-watch-timed.txt
+│   │   ├── hpa-watch.txt
+│   │   ├── isolation.txt
+│   │   ├── k6-read-baseline.json
+│   │   ├── k6-read-baseline.txt
+│   │   ├── k6-read-p99.txt
+│   │   ├── load-balancing.txt
+│   │   ├── rls.txt
+│   │   ├── rollback.txt
+│   │   ├── rollout-pods-after.txt
+│   │   ├── rollout-pods-before.txt
+│   │   ├── rollout-restart.txt
+│   │   ├── self-heal-pods.txt
+│   │   ├── self-heal.txt
+│   │   └── tls-check.txt
+│   ├── COST_ANALYSIS.md
+│   ├── QBR Summary.pdf
+│   ├── QBR.md
+│   ├── SETUP_GUIDE.md
+│   ├── architecture.mmd
+│   ├── architecture.png
+│   └── architecture.svg
+├── k8s/
+│   ├── extras/
+│   │   └── web-loadbalancer.yaml
+│   ├── migrate/
+│   │   ├── job.yaml
+│   │   └── kustomization.yaml
+│   ├── tools/
+│   │   └── load-job.yaml
+│   ├── api.yaml
+│   ├── gateway.yaml
+│   ├── kustomization.yaml
+│   ├── namespace.yaml
+│   ├── scaling.yaml
+│   └── web.yaml
+├── k8s-tls/
+│   ├── certificate.yaml
+│   ├── clusterissuer.yaml
+│   ├── gateway-https.yaml
+│   ├── kustomization.yaml
+│   └── redirect-to-https.yaml
+├── local/
+│   └── initdb/
+│       └── 01-app-role.sql
+├── presentation/
+│   ├── .gitkeep
+│   └── Drakkar Lite on DigitalOcean Kubernetes.pdf
+├── scripts/
+│   ├── collect_evidence.sh
+│   ├── cost_check.sh
+│   ├── enable_tls.sh
+│   ├── install_tools.sh
+│   ├── isolation_demo.sh
+│   ├── k6-read.js
+│   ├── load.sh
+│   ├── phase9.sh
+│   ├── rollout_check.sh
+│   ├── set_registry.sh
+│   ├── tls_check.sh
+│   └── verify_build.sh
+├── server/
+│   ├── bin/
+│   │   └── server.dart
+│   ├── lib/
+│   │   ├── src/
+│   │   │   ├── api.dart
+│   │   │   ├── audit.dart
+│   │   │   ├── auth_repository.dart
+│   │   │   ├── config.dart
+│   │   │   ├── contacts_repository.dart
+│   │   │   ├── db.dart
+│   │   │   ├── http.dart
+│   │   │   ├── metrics.dart
+│   │   │   ├── middleware.dart
+│   │   │   └── migrations.dart
+│   │   └── drakkar_api.dart
+│   ├── test/
+│   │   └── http_test.dart
+│   ├── Dockerfile
+│   ├── analysis_options.yaml
+│   ├── pubspec.lock
+│   └── pubspec.yaml
+├── web/
+│   ├── lib/
+│   │   ├── src/
+│   │   │   ├── api_client.dart
+│   │   │   ├── app_state.dart
+│   │   │   ├── auth_screen.dart
+│   │   │   ├── contacts_screen.dart
+│   │   │   └── served_by_footer.dart
+│   │   └── main.dart
+│   ├── nginx/
+│   │   └── default.conf.template
+│   ├── test/
+│   │   └── widget_test.dart
+│   ├── web/
+│   │   ├── icons/
+│   │   │   ├── Icon-192.png
+│   │   │   ├── Icon-512.png
+│   │   │   ├── Icon-maskable-192.png
+│   │   │   └── Icon-maskable-512.png
+│   │   ├── favicon.png
+│   │   ├── index.html
+│   │   └── manifest.json
+│   ├── .dockerignore
+│   ├── .gitignore
+│   ├── .metadata
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── analysis_options.yaml
+│   ├── pubspec.lock
+│   └── pubspec.yaml
+├── .dockerignore
+├── .gitignore
+├── README.md
+└── docker-compose.yml
+```
+
+## Full tree
+
+```
+drakkar-lite-doks/
+├── core/
+│   ├── lib/
+│   │   ├── src/
+│   │   │   ├── contact.dart
+│   │   │   ├── security_validator.dart
+│   │   │   └── validation.dart
+│   │   └── drakkar_core.dart
+│   ├── test/
+│   │   └── contact_test.dart
+│   ├── analysis_options.yaml
+│   ├── pubspec.lock
+│   └── pubspec.yaml
+├── docs/
+│   ├── results/
+│   │   ├── 20260918-143746-idle/
+│   │   │   ├── deployments.txt
+│   │   │   ├── do-balance.txt
+│   │   │   ├── do-cluster.txt
+│   │   │   ├── do-databases.txt
+│   │   │   ├── do-lbs.txt
+│   │   │   ├── do-nodepools.txt
+│   │   │   ├── do-registry.txt
+│   │   │   ├── events.txt
+│   │   │   ├── gateway.txt
+│   │   │   ├── hpa.txt
+│   │   │   ├── nodes.txt
+│   │   │   ├── pdb.txt
+│   │   │   ├── pods.txt
+│   │   │   ├── requests.txt
+│   │   │   ├── rollout.txt
+│   │   │   ├── services.txt
+│   │   │   ├── top-nodes.txt
+│   │   │   └── top-pods.txt
+│   │   ├── 20260918-161232-idle/
+│   │   │   ├── deployments.txt
+│   │   │   ├── do-balance.txt
+│   │   │   ├── do-cluster.txt
+│   │   │   ├── do-databases.txt
+│   │   │   ├── do-lbs.txt
+│   │   │   ├── do-nodepools.txt
+│   │   │   ├── do-registry.txt
+│   │   │   ├── events.txt
+│   │   │   ├── gateway.txt
+│   │   │   ├── hpa.txt
+│   │   │   ├── nodes.txt
+│   │   │   ├── pdb.txt
+│   │   │   ├── pods.txt
+│   │   │   ├── requests.txt
+│   │   │   ├── rollout.txt
+│   │   │   ├── services.txt
+│   │   │   ├── top-nodes.txt
+│   │   │   └── top-pods.txt
+│   │   ├── .gitkeep
+│   │   ├── api-logs.txt
+│   │   ├── api-metrics.txt
+│   │   ├── cost-2026-09-18.txt
+│   │   ├── cost-idle.txt
+│   │   ├── drain-check.txt
+│   │   ├── hpa-watch-timed.txt
+│   │   ├── hpa-watch.txt
+│   │   ├── isolation.txt
+│   │   ├── k6-read-baseline.json
+│   │   ├── k6-read-baseline.txt
+│   │   ├── k6-read-p99.txt
+│   │   ├── load-balancing.txt
+│   │   ├── rls.txt
+│   │   ├── rollback.txt
+│   │   ├── rollout-pods-after.txt
+│   │   ├── rollout-pods-before.txt
+│   │   ├── rollout-restart.txt
+│   │   ├── self-heal-pods.txt
+│   │   ├── self-heal.txt
+│   │   └── tls-check.txt
+│   ├── COST_ANALYSIS.md
+│   ├── QBR Summary.pdf
+│   ├── QBR.md
+│   ├── SETUP_GUIDE.md
+│   ├── architecture.mmd
+│   ├── architecture.png
+│   └── architecture.svg
+├── k8s/
+│   ├── extras/
+│   │   └── web-loadbalancer.yaml
+│   ├── migrate/
+│   │   ├── job.yaml
+│   │   └── kustomization.yaml
+│   ├── tools/
+│   │   └── load-job.yaml
+│   ├── api.yaml
+│   ├── gateway.yaml
+│   ├── kustomization.yaml
+│   ├── namespace.yaml
+│   ├── scaling.yaml
+│   └── web.yaml
+├── k8s-tls/
+│   ├── certificate.yaml
+│   ├── clusterissuer.yaml
+│   ├── gateway-https.yaml
+│   ├── kustomization.yaml
+│   └── redirect-to-https.yaml
+├── local/
+│   └── initdb/
+│       └── 01-app-role.sql
+├── presentation/
+│   ├── .gitkeep
+│   └── Drakkar Lite on DigitalOcean Kubernetes.pdf
+├── scripts/
+│   ├── collect_evidence.sh
+│   ├── cost_check.sh
+│   ├── enable_tls.sh
+│   ├── install_tools.sh
+│   ├── isolation_demo.sh
+│   ├── k6-read.js
+│   ├── load.sh
+│   ├── phase9.sh
+│   ├── rollout_check.sh
+│   ├── set_registry.sh
+│   ├── tls_check.sh
+│   └── verify_build.sh
+├── server/
+│   ├── bin/
+│   │   └── server.dart
+│   ├── lib/
+│   │   ├── src/
+│   │   │   ├── api.dart
+│   │   │   ├── audit.dart
+│   │   │   ├── auth_repository.dart
+│   │   │   ├── config.dart
+│   │   │   ├── contacts_repository.dart
+│   │   │   ├── db.dart
+│   │   │   ├── http.dart
+│   │   │   ├── metrics.dart
+│   │   │   ├── middleware.dart
+│   │   │   └── migrations.dart
+│   │   └── drakkar_api.dart
+│   ├── test/
+│   │   └── http_test.dart
+│   ├── Dockerfile
+│   ├── analysis_options.yaml
+│   ├── pubspec.lock
+│   └── pubspec.yaml
+├── web/
+│   ├── lib/
+│   │   ├── src/
+│   │   │   ├── api_client.dart
+│   │   │   ├── app_state.dart
+│   │   │   ├── auth_screen.dart
+│   │   │   ├── contacts_screen.dart
+│   │   │   └── served_by_footer.dart
+│   │   └── main.dart
+│   ├── nginx/
+│   │   └── default.conf.template
+│   ├── test/
+│   │   └── widget_test.dart
+│   ├── web/
+│   │   ├── icons/
+│   │   │   ├── Icon-192.png
+│   │   │   ├── Icon-512.png
+│   │   │   ├── Icon-maskable-192.png
+│   │   │   └── Icon-maskable-512.png
+│   │   ├── favicon.png
+│   │   ├── index.html
+│   │   └── manifest.json
+│   ├── .dockerignore
+│   ├── .gitignore
+│   ├── .metadata
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── analysis_options.yaml
+│   ├── pubspec.lock
+│   └── pubspec.yaml
+├── .dockerignore
+├── .gitignore
+├── README.md
+└── docker-compose.yml
+```
